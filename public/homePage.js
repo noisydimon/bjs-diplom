@@ -1,6 +1,6 @@
 
 
-LogoutButton1 = new LogoutButton;
+const LogoutButton1 = new LogoutButton;
 LogoutButton1.action = () => ApiConnector.logout(responseLogout => {
     if (responseLogout.success) {
         location.reload()
@@ -17,7 +17,7 @@ ApiConnector.current(checkResponse => {
 }
 )
 
-RatesBoard1 = new RatesBoard;
+const RatesBoard1 = new RatesBoard;
 console.log(RatesBoard1)
 
 function getStocks() {
@@ -32,12 +32,12 @@ function getStocks() {
     )
 }
 
-let timerId = setInterval(getStocks(), 60000);
+setInterval(getStocks(), 60000);
 
 
 
 
-MoneyManager1 = new MoneyManager
+const MoneyManager1 = new MoneyManager
 MoneyManager1.addMoneyCallback = (data) => {
     ApiConnector.addMoney(data, responseAddMoney => {
         if (responseAddMoney.success) {
@@ -68,7 +68,7 @@ MoneyManager1.sendMoneyCallback = (data) => {
     ApiConnector.transferMoney(data, responseTransfer => {
         if (responseTransfer.success) {
             ProfileWidget.showProfile(responseTransfer.data);
-
+            MoneyManager1.setMessage(true,"Перевод успешно выполнен");
         } else {
             MoneyManager1.setMessage(false, responseTransfer.error)
         }
@@ -77,7 +77,7 @@ MoneyManager1.sendMoneyCallback = (data) => {
     )
 }
 
-FavoritesWidget1 = new FavoritesWidget
+const FavoritesWidget1 = new FavoritesWidget
 
 ApiConnector.getFavorites(checkFavorites => {
     if (checkFavorites.success) {
@@ -95,6 +95,9 @@ FavoritesWidget1.addUserCallback = (data) => {
             FavoritesWidget1.clearTable()
             FavoritesWidget1.fillTable(responseAddFavorites.data)
             MoneyManager1.updateUsersList(responseAddFavorites.data)
+            MoneyManager1.setMessage(true,"Пользователь успешно добавлен");
+        } else {
+            MoneyManager1.setMessage(false, responseTransfer.error)
         }
     }
     )
@@ -103,9 +106,14 @@ FavoritesWidget1.addUserCallback = (data) => {
 
 FavoritesWidget1.removeUserCallback = (data) => {
     ApiConnector.removeUserFromFavorites(data, responseDeleteFavorites => {
+        if (responseDeleteFavorites.success) {
             FavoritesWidget1.clearTable()
             FavoritesWidget1.fillTable(responseDeleteFavorites.data)
             MoneyManager1.updateUsersList(responseDeleteFavorites.data)
+            MoneyManager1.setMessage(true,"Пользователь успешно удален");
+        } else {
+            MoneyManager1.setMessage(false, responseTransfer.error)
+        }
         
     }
     )
