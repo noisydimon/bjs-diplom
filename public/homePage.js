@@ -31,8 +31,9 @@ function getStocks() {
     }
     )
 }
+getStocks()
 
-setInterval(getStocks(), 60000);
+setInterval(getStocks, 60000);
 
 
 
@@ -57,7 +58,7 @@ MoneyManager1.conversionMoneyCallback = (data) => {
             ProfileWidget.showProfile(responseConvert.data);
 
         } else {
-            MoneyManager1.setMessage(false, responseAddMoney.error)
+            MoneyManager1.setMessage(false, responseConvert.error)
         }
 
     }
@@ -95,9 +96,9 @@ FavoritesWidget1.addUserCallback = (data) => {
             FavoritesWidget1.clearTable()
             FavoritesWidget1.fillTable(responseAddFavorites.data)
             MoneyManager1.updateUsersList(responseAddFavorites.data)
-            MoneyManager1.setMessage(true,"Пользователь успешно добавлен");
+            FavoritesWidget1.setMessage(true,"Пользователь успешно добавлен");
         } else {
-            MoneyManager1.setMessage(false, responseTransfer.error)
+            FavoritesWidget1.setMessage(false, responseAddFavorites.error)
         }
     }
     )
@@ -110,9 +111,9 @@ FavoritesWidget1.removeUserCallback = (data) => {
             FavoritesWidget1.clearTable()
             FavoritesWidget1.fillTable(responseDeleteFavorites.data)
             MoneyManager1.updateUsersList(responseDeleteFavorites.data)
-            MoneyManager1.setMessage(true,"Пользователь успешно удален");
+            FavoritesWidget1.setMessage(true,"Пользователь успешно удален");
         } else {
-            MoneyManager1.setMessage(false, responseTransfer.error)
+            FavoritesWidget1.setMessage(false, responseDeleteFavorites.error)
         }
         
     }
